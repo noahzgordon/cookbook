@@ -1,7 +1,24 @@
 module Main exposing (main)
 
-import Html
+import Cookbook
+import Cookbook.Ingredients exposing (bread, peanutButter, jelly)
+import Cookbook.Techniques exposing (spread, placeOnTop)
 
 
 main =
-    Html.text "Hello Thar"
+    Cookbook.generateHtml sandwich
+
+
+pbHalf : Cookbook.Component
+pbHalf =
+    spread peanutButter bread
+
+
+jellyHalf : Cookbook.Component
+jellyHalf =
+    spread jelly bread
+
+
+sandwich : Cookbook.Component
+sandwich =
+    placeOnTop pbHalf jellyHalf
