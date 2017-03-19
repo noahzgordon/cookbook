@@ -12,8 +12,30 @@ import Cookbook.Amounts as Amounts exposing (..)
 
 generateHtml : Recipe -> Html.Html msg
 generateHtml recipe =
-    instructions recipe
-        |> formatInstructions
+    Html.div []
+        [ Html.section []
+            [ Html.h2 [] [ Html.text "Ingredients" ]
+            , formatIngredients (baseIngredients recipe)
+            ]
+        , Html.section []
+            [ Html.h2 [] [ Html.text "Instructions" ]
+            , instructions recipe
+                |> formatInstructions
+            ]
+        ]
+
+
+formatIngredients : List Recipe -> Html.Html msg
+formatIngredients ingredients =
+    let
+        formatSingle text =
+            Html.li [] [ Html.text text ]
+    in
+        Html.ul []
+            (ingredients
+                |> List.map name
+                |> List.map formatSingle
+            )
 
 
 formatInstructions : List String -> Html.Html msg
@@ -53,7 +75,11 @@ combine : List Recipe -> Recipe
 combine recipes =
     Step
         { name = "mixture"
-        , instruction = "combine these ingredients"
+        , instruction =
+            "combine "
+                ++ (List.map name recipes
+                        |> String.toSentence
+                   )
         , subSteps = recipes
         }
 

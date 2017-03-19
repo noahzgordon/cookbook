@@ -46,6 +46,16 @@ subSteps recipe =
             step.subSteps
 
 
+baseIngredients : Recipe -> List Recipe
+baseIngredients recipe =
+    case recipe of
+        Ingredient _ ->
+            [ recipe ]
+
+        Step { subSteps } ->
+            List.concatMap baseIngredients subSteps
+
+
 instructions : Recipe -> List String
 instructions recipe =
     case recipe of
@@ -53,4 +63,4 @@ instructions recipe =
             (List.concatMap instructions step.subSteps) ++ [ step.instruction ]
 
         Ingredient ingredient ->
-            [ "Take " ++ ingredient.name ++ "." ]
+            []
