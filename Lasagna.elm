@@ -19,11 +19,11 @@ main =
 meatMix : Recipe
 meatMix =
     combine
-        [ ingredient "1 pound bulk Italian sausage"
-        , ingredient "1 pound ground beef"
-        , ingredient "1 pound ground beef"
-        , ingredient "1 cup chopped onion"
-        , ingredient "4 cloves minced garlic"
+        [ ingredient (Weight (Pounds 1 1)) "bulk Italian sausage"
+        , ingredient (Weight (Pounds 1 1)) "ground beef"
+        , ingredient (Weight (Pounds 1 1)) "ground beef"
+        , ingredient (Volume (Cups 1 1)) "chopped onion"
+        , ingredient (Number 4) "cloves minced garlic"
         ]
         |> inOneOf [ "dutch oven", "heavy pot" ]
         |> stoveCook Medium (MinuteRange 10 15)
@@ -33,18 +33,18 @@ meatMix =
 sauceMix : Recipe
 sauceMix =
     combine
-        [ ingredient "2 (8 ounce) cans tomato sauce"
-        , ingredient "1 (14 ounce) can crushed tomatoes"
-        , ingredient "1 (14 ounce) can Italian-style crushed tomatoes"
-        , ingredient "2 (6 ounce) cans tomato paste"
-        , ingredient "3 tablespoons chopped fresh basil"
-        , ingredient "2 tablespoons chopped fresh parsley"
-        , ingredient "2 teaspoons brown sugar"
-        , ingredient "1 teaspoon salt"
-        , ingredient "1 teaspoon Italian seasoning"
-        , ingredient "1/4 teaspoon ground black pepper"
-        , ingredient "1/2 teaspoon fennel seeds"
-        , ingredient "1/2 cup grated Parmesan cheese"
+        [ ingredient (Volume (LiquidOunces 16 1)) "tomato sauce"
+        , ingredient (Volume (LiquidOunces 14 1)) "crushed tomatoes"
+        , ingredient (Volume (LiquidOunces 14 1)) "Italian-style crushed tomatoes"
+        , ingredient (Volume (LiquidOunces 12 1)) "tomato paste"
+        , ingredient (Volume (Tablespoons 3 1)) "chopped fresh basil"
+        , ingredient (Volume (Tablespoons 2 1)) "chopped fresh parsley"
+        , ingredient (Volume (Teaspoons 2 1)) "brown sugar"
+        , ingredient (Volume (Teaspoons 1 1)) "salt"
+        , ingredient (Volume (Teaspoons 1 1)) "Italian seasoning"
+        , ingredient (Volume (Teaspoons 1 4)) "ground black pepper"
+        , ingredient (Volume (Teaspoons 1 2)) "fennel seeds"
+        , ingredient (Volume (Cups 1 2)) "grated Parmesan cheese"
         ]
         |> in_ "bowl"
         |> withName "sauce mixture"
@@ -58,18 +58,18 @@ combinedMix =
 
 
 noodles =
-    ingredient "12 lasagna noodles"
-        |> soak (Minutes 30) (ingredient "very hot tap water")
+    ingredient (Number 12) "lasagna noodles"
+        |> soak (Minutes 30) (ingredient Unspecified "very hot tap water")
 
 
 eggCheese =
-    ingredient "1 egg"
+    ingredient (Number 1) "egg"
         |> beat
         |> stirIn
-            [ ingredient "1 (15 ounce) container ricotta cheese"
-            , ingredient "2 tablespoons chopped fresh parsley"
-            , ingredient "1/2 teaspoon salt"
-            , ingredient "a pinch ground nutmeg"
+            [ ingredient (Weight (Ounces 15 1)) "ricotta cheese"
+            , ingredient (Volume (Tablespoons 2 1)) "chopped fresh parsley"
+            , ingredient (Volume (Teaspoons 1 2)) "salt"
+            , ingredient Pinch "ground nutmeg"
             ]
         |> withName "egg and cheese mixture"
 
@@ -77,11 +77,11 @@ eggCheese =
 lasagna =
     layer 3
         "9x13-inch baking dish"
-        [ ( combinedMix, Cups 1 1 )
+        [ ( combinedMix, Volume (Cups 1 1) )
         , ( noodles, Number 4 )
         , ( eggCheese, Fraction 1 4 )
-        , ( ingredient "16 ounces shredded mozzarella cheese", Fraction 1 3 )
-        , ( ingredient "3/4 cup grated Parmesan cheese", Cups 1 4 )
+        , ( ingredient (Weight (Ounces 16 1)) "shredded mozzarella cheese", Fraction 1 3 )
+        , ( ingredient (Volume (Cups 3 4)) "grated Parmesan cheese", Volume (Cups 1 4) )
         ]
         |> withName "lasagna"
         |> coverTop "aluminum foil"

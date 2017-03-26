@@ -33,7 +33,7 @@ formatIngredients ingredients =
     in
         Html.ul []
             (ingredients
-                |> List.map name
+                |> List.map nameAndAmount
                 |> List.map formatSingle
             )
 
@@ -192,7 +192,7 @@ layer times cookware recipesAndAmounts =
 
 recipeAndAmountToString : ( Recipe, Amount ) -> String
 recipeAndAmountToString ( recipe, amount ) =
-    Amounts.toString amount ++ " of the " ++ name recipe
+    Amounts.format amount (name recipe)
 
 
 coverTop : String -> Recipe -> Recipe

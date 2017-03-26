@@ -1,8 +1,9 @@
 module Cookbook.Recipe exposing (..)
+import Cookbook.Amounts as Amounts exposing (..)
 
 
 type Recipe
-    = Ingredient { name : String }
+    = Ingredient { name : String, amount : Amount }
     | Step { name : String, instruction : String, subSteps : List Recipe }
 
 
@@ -11,9 +12,9 @@ type Cookware
     | CookwareChoice (List String)
 
 
-ingredient : String -> Recipe
-ingredient name =
-    Ingredient { name = name }
+ingredient : Amount -> String -> Recipe
+ingredient amount name =
+    Ingredient { name = name, amount = amount }
 
 
 name : Recipe -> String
@@ -21,6 +22,16 @@ name recipe =
     case recipe of
         Ingredient { name } ->
             name
+
+        Step { name } ->
+            name
+
+
+nameAndAmount : Recipe -> String
+nameAndAmount recipe =
+    case recipe of
+        Ingredient { name, amount } ->
+            Amounts.format amount name
 
         Step { name } ->
             name
