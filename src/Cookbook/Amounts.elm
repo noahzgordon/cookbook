@@ -5,22 +5,22 @@ type Amount
     = Volume Volume
     | Weight Weight
     | Number Int
-    | Fraction Int Int
+    | Fraction Float
     | Pinch
     | Dash
     | Unspecified
 
 
 type Volume
-    = Cups Int Int
-    | Tablespoons Int Int
-    | Teaspoons Int Int
-    | LiquidOunces Int Int
+    = Cups Float
+    | Tablespoons Float
+    | Teaspoons Float
+    | LiquidOunces Float
 
 
 type Weight
-    = Pounds Int Int
-    | Ounces Int Int
+    = Pounds Float
+    | Ounces Float
 
 
 format : Amount -> String -> String
@@ -28,31 +28,31 @@ format amount name =
     case amount of
         Volume vol ->
             case vol of
-                Cups n d ->
-                    formatFraction n d ++ " cups of " ++ name
+                Cups num ->
+                    formatFraction num ++ " cups of " ++ name
 
-                Teaspoons n d ->
-                    formatFraction n d ++ " teaspoons of " ++ name
+                Teaspoons num ->
+                    formatFraction num ++ " teaspoons of " ++ name
 
-                Tablespoons n d ->
-                    formatFraction n d ++ " tablespoons of " ++ name
+                Tablespoons num ->
+                    formatFraction num ++ " tablespoons of " ++ name
 
-                LiquidOunces n d ->
-                    formatFraction n d ++ " ounces of " ++ name
+                LiquidOunces num ->
+                    formatFraction num ++ " ounces of " ++ name
 
         Weight weight ->
             case weight of
-                Pounds n d ->
-                    formatFraction n d ++ " pounds of " ++ name
+                Pounds num ->
+                    formatFraction num ++ " pounds of " ++ name
 
-                Ounces n d ->
-                    formatFraction n d ++ " ounces of " ++ name
+                Ounces num ->
+                    formatFraction num ++ " ounces of " ++ name
 
         Number int ->
             Basics.toString int ++ " " ++ name ++ "s"
 
-        Fraction n d ->
-            formatFraction n d ++ " of the " ++ name
+        Fraction num ->
+            formatFraction num ++ " of the " ++ name
 
         Pinch ->
             "a pinch of " ++ name
@@ -64,11 +64,79 @@ format amount name =
             name
 
 
-formatFraction : Int -> Int -> String
-formatFraction numerator denominator =
-    if denominator == 1 then
-        Basics.toString numerator
-    else if numerator == denominator then
-        "1"
-    else
-        Basics.toString numerator ++ "/" ++ Basics.toString denominator
+formatFraction : Float -> String
+formatFraction num =
+    let
+        wholes =
+            floor num
+
+        remainder =
+            num - (toFloat wholes)
+
+        fraction =
+            case remainder of
+                0.9375 ->
+                    Just "15/16"
+
+                0.875 ->
+                    Just "7/8"
+
+                0.8125 ->
+                    Just "13/16"
+
+                0.75 ->
+                    Just "3/4"
+
+                0.6875 ->
+                    Just "11/16"
+
+                0.625 ->
+                    Just "5/8"
+
+                0.5625 ->
+                    Just "9/16"
+
+                0.5 ->
+                    Just "1/2"
+
+                0.4375 ->
+                    Just "7/16"
+
+                0.375 ->
+                    Just "3/8"
+
+                0.3125 ->
+                    Just "5/16"
+
+                0.25 ->
+                    Just "1/4"
+
+                0.1875 ->
+                    Just "3/16"
+
+                0.125 ->
+                    Just "1/8"
+
+                0.0625 ->
+                    Just "1/16"
+
+                0 ->
+                    Nothing
+
+                _ ->
+                    Just (toString num)
+    in
+        if wholes > 0 then
+            case fraction of
+                Just f ->
+                    toString wholes ++ " " ++ f
+
+                Nothing ->
+                    toString wholes
+        else
+            case fraction of
+                Just f ->
+                    f
+
+                Nothing ->
+                    "zero"
