@@ -23,6 +23,50 @@ type Weight
     | Ounces Float
 
 
+cups =
+    Volume << Cups
+
+
+tablespoons =
+    Volume << Tablespoons
+
+
+teaspoons =
+    Volume << Teaspoons
+
+
+liquidOunces =
+    Volume << LiquidOunces
+
+
+pounds =
+    Weight << Pounds
+
+
+ounces =
+    Weight << Ounces
+
+
+num =
+    Number
+
+
+fraction =
+    Fraction
+
+
+pinch =
+    Pinch
+
+
+dash =
+    Dash
+
+
+unspecified =
+    Unspecified
+
+
 format : Amount -> String -> String
 format amount name =
     case amount of
