@@ -8,6 +8,7 @@ import Cookbook.Recipe exposing (..)
 import Cookbook.Temperature as Temp exposing (Temperature)
 import Cookbook.Duration as Dur exposing (Duration)
 import Cookbook.Amounts as Amounts exposing (..)
+import Cookbook.Generators as Generators
 
 
 generateHtml : Recipe -> Html.Html msg
@@ -72,16 +73,9 @@ inOneOf _ recipe =
 
 
 combine : List Recipe -> Recipe
-combine recipes =
-    Step
-        { name = "mixture"
-        , instruction =
-            "combine "
-                ++ (List.map name recipes
-                        |> String.toSentence
-                   )
-        , subSteps = recipes
-        }
+combine =
+    listTechnique "mixture"
+        (\rs -> "combine " ++ (List.map name rs |> String.toSentence))
 
 
 stoveCook : Temperature -> Duration -> Recipe -> Recipe
