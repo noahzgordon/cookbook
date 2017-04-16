@@ -1,4 +1,4 @@
-module Lasagna exposing (main)
+module Lasagna exposing (main, lasagna)
 
 import Cookbook exposing (..)
 import Cookbook.Recipe exposing (..)
