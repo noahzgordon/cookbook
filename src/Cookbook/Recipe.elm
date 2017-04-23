@@ -1,4 +1,5 @@
 module Cookbook.Recipe exposing (..)
+
 import Cookbook.Amounts as Amounts exposing (..)
 
 
@@ -15,6 +16,11 @@ type Cookware
 ingredient : Amount -> String -> Recipe
 ingredient amount name =
     Ingredient { name = name, amount = amount }
+
+
+step : String -> String -> List Recipe -> Recipe
+step name instruction subSteps =
+    Step { name = name, instruction = instruction, subSteps = subSteps }
 
 
 name : Recipe -> String
