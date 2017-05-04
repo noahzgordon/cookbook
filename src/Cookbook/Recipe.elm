@@ -17,6 +17,11 @@ ingredient amount name =
     Ingredient { name = name, amount = amount }
 
 
+step : String -> String -> List Recipe -> Recipe
+step name instruction subSteps =
+    Step { name = name, instruction = instruction, subSteps = subSteps }
+
+
 name : Recipe -> String
 name recipe =
     case recipe of
