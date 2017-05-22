@@ -8,6 +8,7 @@ import Cookbook.Recipe exposing (..)
 import Cookbook.Temperature as Temp exposing (Temperature)
 import Cookbook.Duration as Dur exposing (Duration)
 import Cookbook.Amounts as Amounts exposing (..)
+import Cookbook.Techniques exposing (..)
 
 
 generateHtml : Recipe -> Html.Html msg
@@ -85,12 +86,13 @@ combine recipes =
 
 
 stoveCook : Temperature -> Duration -> Recipe -> Recipe
-stoveCook temp duration recipe =
-    Step
-        { name = "cooked " ++ name recipe
-        , instruction = "cook " ++ name recipe ++ " on a stove"
-        , subSteps = [ recipe ]
+stoveCook =
+    techniqueOne
+        { name = \recipe -> "cooked " ++ name recipe
+        , instruction = \recipe -> "cook " ++ name recipe ++ " on a stove"
         }
+        |> withTemperature
+        |> withDuration
 
 
 stirIn : List Recipe -> Recipe -> Recipe
