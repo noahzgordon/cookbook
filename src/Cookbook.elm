@@ -34,6 +34,7 @@ formatIngredients ingredients =
         Html.ul []
             (ingredients
                 |> List.map nameAndAmount
+                |> List.unique
                 |> List.map formatSingle
             )
 
@@ -45,7 +46,7 @@ formatInstructions instructions =
             Html.li [] [ Html.text text ]
     in
         Html.ul []
-            (List.map formatSingle instructions)
+            (List.map formatSingle (List.unique instructions))
 
 
 withName : String -> Recipe -> Recipe
@@ -235,3 +236,45 @@ letSit duration recipe =
         , instruction = "Let " ++ name recipe ++ " sit for " ++ Dur.toString duration
         , subSteps = [ recipe ]
         }
+
+
+toast : Recipe -> Recipe
+toast recipe =
+    Step
+        { name = "toasted " ++ name recipe
+        , instruction = "toast the " ++ name recipe
+        , subSteps = [ recipe ]
+        }
+
+
+spread : Recipe -> Recipe -> Recipe
+spread schmear recipe =
+    Step
+        { name = name recipe ++ " with " ++ name schmear ++ " spread"
+        , instruction = "spread " ++ name schmear ++ " onto the " ++ name recipe
+        , subSteps = [ schmear, recipe ]
+        }
+
+
+placeOnTop : Recipe -> Recipe -> Recipe
+placeOnTop top base =
+    Step
+        { name = name base
+        , instruction = "place " ++ name top ++ " onto top of the " ++ name base
+        , subSteps = [ top, base ]
+        }
+
+
+sliceInHalf : Recipe -> ( Recipe, Recipe )
+sliceInHalf recipe =
+    ( Step
+        { name = "top half of the " ++ name recipe
+        , instruction = "cut the " ++ name recipe ++ " in half"
+        , subSteps = [ recipe ]
+        }
+    , Step
+        { name = "bottom half of the " ++ name recipe
+        , instruction = "cut the " ++ name recipe ++ " in half"
+        , subSteps = [ recipe ]
+        }
+    )
